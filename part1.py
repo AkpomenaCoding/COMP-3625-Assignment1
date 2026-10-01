@@ -4,6 +4,7 @@ from translator import UniversalTranslator
 from matplotlib import pyplot as plt
 import numpy as np
 
+"""
 # This does not take int account split words and punctuation marks
 def decode_rate(translated_string):
     words = translated_string.split()
@@ -14,6 +15,8 @@ def decode_rate(translated_string):
             translated_words += 1
 
     return translated_words / len(words)
+"""
+
 
 
 # create the UniversalTranslator object, with 2 knobs
