@@ -83,7 +83,7 @@ plot_decode_rate(sample_settings, setting_scores)
 # while keeping the other knobs fixed. This will be repeated until no further improvements can be made.
 
 def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps: int) -> tuple[list, float]:
-    
+    # need to add random functionality sfter a few runs to search in different locations
     best_settings = [round(random(), 1) for setting in range(num_knobs)]
     best_trans_string = translator.translate(best_settings)
     best_dec_rate = decode_rate(best_trans_string)
@@ -91,8 +91,8 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
     for step in range(num_steps):
         curr_settings = best_settings.copy()
         knob = randint(0, num_knobs - 1)
-        curr_settings[knob] += choice([-0.1, 0.1])
-        curr_settings[knob] = round(curr_settings[knob], 1)
+        curr_settings[knob] += choice([-0.01, 0.01])
+        curr_settings[knob] = round(curr_settings[knob], 2)
         curr_settings[knob] = max(0.0, min(1.0, curr_settings[knob]))
         
         curr_trans_string = translator.translate(curr_settings)
@@ -108,7 +108,7 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
 # create the UniversalTranslator object, with 2 knobs
 translator = UniversalTranslator(n_dim=2)
 
-result = decode_hill_climb(translator, num_knobs=2, num_steps=100)
+result = decode_hill_climb(translator, num_knobs=2, num_steps=50)
 
 # print the reults
 print(f'Final translation: {translator.translate(result[0])}')
