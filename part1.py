@@ -73,7 +73,7 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
     for step in range(num_steps):
         curr_settings = best_settings.copy()
         knob = randint(0, num_knobs - 1)
-        curr_settings[knob] += choice([-0.03, 0.03])
+        curr_settings[knob] += choice([-0.3, 0.3])
         curr_settings[knob] = round(curr_settings[knob], 2)
         curr_settings[knob] = max(0.0, min(1.0, curr_settings[knob]))
         
@@ -97,16 +97,18 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
 
     return best_settings, best_dec_rate,  all_settings, scores
 
-# create the UniversalTranslator object, with 2 knobs
-translator = UniversalTranslator(n_dim=2)
 
-best_settings, best_dec_rate,  all_settings, scores = decode_hill_climb(translator, num_knobs=2, num_steps=50, improvement_judge=30)
+if __name__ == "__main__":
+    # create the UniversalTranslator object, with 2 knobs
+    translator = UniversalTranslator(n_dim=2)
 
-# print the reults
-print(f'Final translation: {translator.translate(best_settings)}')
-print(f'Final result: {best_settings}, decode rate: {best_dec_rate:.0%}')
+    best_settings, best_dec_rate,  all_settings, scores = decode_hill_climb(translator, num_knobs=2, num_steps=50, improvement_judge=30)
 
-# print total number of settings evaluated
-print(f'# settings tried: {translator.n_settings_tried()}')
+    # print the reults
+    print(f'Final translation: {translator.translate(best_settings)}')
+    print(f'Final result: {best_settings}, decode rate: {best_dec_rate:.0%}')
 
-plot_decode_rate(np.array(all_settings), scores)
+    # print total number of settings evaluated
+    print(f'# settings tried: {translator.n_settings_tried()}')
+
+    plot_decode_rate(np.array(all_settings), scores) 
