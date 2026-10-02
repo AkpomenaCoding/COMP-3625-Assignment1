@@ -1,5 +1,6 @@
 from translator import UniversalTranslator
 import numpy as np
+import time as t
 
 
 # create the UniversalTranslator object, with 10 knobs

@@ -48,23 +48,17 @@ def plot_decode_rate(settings, decode_rate):
 # display
     plt.show()
 
-""" ------- NOT BEING USED ANYMORE --------
-# might be here I'm replacing with your code then
-for s in sample_settings:
-    translated_string = translator.translate(s)
-    rate = decode_rate(translated_string)
-    setting_scores.append(rate)
-    print(f"The decode rate for this setting {s} is: {rate:.3f}") 
-    
 """
-
-# decode rate: words translated / total words in the message
-# hill-climbing for the maximum decode rate and minimizing finding optimal settings 
-# this will be done through starting each knob at a random value, 
-# and then iteratively adjusting each knob to find the best setting for that knob, 
-# while keeping the other knobs fixed. This will be repeated until no further improvements can be made.
-
-def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps: int) -> tuple[list, float]:
+    function name: decode_hill_climb
+    params: 
+    description: 
+        decode rate: words translated / total words in the message
+        hill-climbing for the maximum decode rate and minimizing finding optimal settings 
+        this will be done through starting each knob at a random value, 
+        and then iteratively adjusting each knob to find the best setting for that knob, 
+        while keeping the other knobs fixed. This will be repeated until no further improvements can be made
+"""
+def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps: int, improvement_judge: int) -> tuple[list, float]:
     # need to add random functionality sfter a few runs to search in different locations
     scores = []
     all_settings = [] 
@@ -75,11 +69,11 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
     scores.append(best_dec_rate)
     all_settings.append(best_settings)
     
-    steps_with_improvement = 0
+    steps_without_improvement = 0
     for step in range(num_steps):
         curr_settings = best_settings.copy()
         knob = randint(0, num_knobs - 1)
-        curr_settings[knob] += choice([-0.01, 0.01])
+        curr_settings[knob] += choice([-0.03, 0.03]) # I've been fiddling with this a lot
         curr_settings[knob] = round(curr_settings[knob], 2)
         curr_settings[knob] = max(0.0, min(1.0, curr_settings[knob]))
         
@@ -91,14 +85,14 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
         if curr_dec_rate > best_dec_rate:
             best_settings = curr_settings
             best_dec_rate = curr_dec_rate
-            steps_with_improvement = 0
+            steps_without_improvement = 0
         else:
-            steps_with_improvement += 1
+            steps_without_improvement += 1
 
         print(f'Step {step + 1}: Current settings: {curr_settings}, decode rate: {curr_dec_rate:.0%}')
         
         # if the algorithm isn't finding a good rate to decode within 30 steps then it stops, saving us time
-        if steps_with_improvement >= 30: 
+        if steps_without_improvement >= improvement_judge: 
             break
 
     return best_settings, best_dec_rate,  all_settings, scores
@@ -106,7 +100,7 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
 # create the UniversalTranslator object, with 2 knobs
 translator = UniversalTranslator(n_dim=2)
 
-best_settings, best_dec_rate,  all_settings, scores = decode_hill_climb(translator, num_knobs=2, num_steps=50)
+best_settings, best_dec_rate,  all_settings, scores = decode_hill_climb(translator, num_knobs=2, num_steps=50, improvement_judge=30)
 
 # print the reults
 print(f'Final translation: {translator.translate(best_settings)}')
