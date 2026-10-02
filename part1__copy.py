@@ -1,14 +1,28 @@
+from random import choice, randint, random
+
 from translator import UniversalTranslator
 from matplotlib import pyplot as plt
 import numpy as np
 
+"""
+    function name: decorate rate 
+    params: translated_string
+    description: takes the string that has been translated and returns the percentage of that string are words
+                words are seen the success in the string.
+"""
+def decode_rate(translated_string):
+    tokens = translated_string.split()
+    words = [t for t in tokens if not t.isdigit()]
+
+    rate = len(words)/len(tokens)
+    
+    return rate
 
 """
     function name: plot_decode_rate
     params: settings, decode_rate
-    description: 
-        plots the graph of settings against their decode rates 
-        Adapted from Eric's code from the assignment google doc
+    description: plots the graph of settings against their decode rates 
+    Adapted from Eric's code from the assignment google doc
 """
 
 # given settings: a Nx2 array of N setting combinations
@@ -86,7 +100,7 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
 # create the UniversalTranslator object, with 2 knobs
 translator = UniversalTranslator(n_dim=2)
 
-result = decode_hill_climb(translator, num_knobs=2, num_steps=50)
+best_settings, best_dec_rate,  all_settings, scores = decode_hill_climb(translator, num_knobs=2, num_steps=50, improvement_judge=30)
 
 # print the reults
 print(f'Final translation: {translator.translate(best_settings)}')
