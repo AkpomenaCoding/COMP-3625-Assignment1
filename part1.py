@@ -5,26 +5,6 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 """
-# This does not take int account split words and punctuation marks
-def decode_rate(translated_string):
-    words = translated_string.split()
-    translated_words = 0
-
-    for word in words:
-        if not word.isnumeric():
-            translated_words += 1
-
-    return translated_words / len(words)
-"""
-
-
-
-# create the UniversalTranslator object, with 2 knobs
-translator = UniversalTranslator(n_dim=2)
-sample_settings = np.random.rand(18, 2) # this line needs to go and be replaced by the algorithm
-setting_scores = []
-
-"""
     function name: decorate rate 
     params: translated_string
     description: takes the string that has been translated and returns the percentage of that string are words
@@ -68,16 +48,15 @@ def plot_decode_rate(settings, decode_rate):
 # display
     plt.show()
 
+""" ------- NOT BEING USED ANYMORE --------
+# might be here I'm replacing with your code then
 for s in sample_settings:
     translated_string = translator.translate(s)
     rate = decode_rate(translated_string)
     setting_scores.append(rate)
     print(f"The decode rate for this setting {s} is: {rate:.3f}") 
     
-# print total number of settings evaluated
-print(f'# settings tried: {translator.n_settings_tried()}')
-
-plot_decode_rate(sample_settings, setting_scores)
+"""
 
 # decode rate: words translated / total words in the message
 # hill-climbing for the maximum decode rate and minimizing finding optimal settings 
@@ -87,10 +66,16 @@ plot_decode_rate(sample_settings, setting_scores)
 
 def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps: int) -> tuple[list, float]:
     # need to add random functionality sfter a few runs to search in different locations
+    scores = []
+    all_settings = [] 
+
     best_settings = [round(random(), 1) for setting in range(num_knobs)]
     best_trans_string = translator.translate(best_settings)
     best_dec_rate = decode_rate(best_trans_string)
-
+    scores.append(best_dec_rate)
+    all_settings.append(best_settings)
+    
+    steps_with_improvement = 0
     for step in range(num_steps):
         curr_settings = best_settings.copy()
         knob = randint(0, num_knobs - 1)
@@ -100,19 +85,34 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
         
         curr_trans_string = translator.translate(curr_settings)
         curr_dec_rate = decode_rate(curr_trans_string)
+        scores.append(curr_dec_rate)
+        all_settings.append(curr_settings)
 
         if curr_dec_rate > best_dec_rate:
             best_settings = curr_settings
             best_dec_rate = curr_dec_rate
+            steps_with_improvement = 0
+        else:
+            steps_with_improvement += 1
+
         print(f'Step {step + 1}: Current settings: {curr_settings}, decode rate: {curr_dec_rate:.0%}')
-    
-    return best_settings, best_dec_rate
+        
+        # if the algorithm isn't finding a good rate to decode within 30 steps then it stops, saving us time
+        if steps_with_improvement >= 30: 
+            break
+
+    return best_settings, best_dec_rate,  all_settings, scores
 
 # create the UniversalTranslator object, with 2 knobs
 translator = UniversalTranslator(n_dim=2)
 
-result = decode_hill_climb(translator, num_knobs=2, num_steps=50)
+best_settings, best_dec_rate,  all_settings, scores = decode_hill_climb(translator, num_knobs=2, num_steps=50)
 
 # print the reults
-print(f'Final translation: {translator.translate(result[0])}')
-print(f'Final result: {result[0]}, decode rate: {result[1]:.0%}')
+print(f'Final translation: {translator.translate(best_settings)}')
+print(f'Final result: {best_settings}, decode rate: {best_dec_rate:.0%}')
+
+# print total number of settings evaluated
+print(f'# settings tried: {translator.n_settings_tried()}')
+
+plot_decode_rate(np.array(all_settings), scores)
