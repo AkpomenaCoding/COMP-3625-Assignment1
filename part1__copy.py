@@ -21,9 +21,8 @@ def decode_rate(translated_string):
 """
     function name: plot_decode_rate
     params: settings, decode_rate
-    description: 
-        plots the graph of settings against their decode rates 
-        Adapted from Eric's code from the assignment google doc
+    description: plots the graph of settings against their decode rates 
+    Adapted from Eric's code from the assignment google doc
 """
 
 # given settings: a Nx2 array of N setting combinations
