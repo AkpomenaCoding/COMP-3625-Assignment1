@@ -1,7 +1,21 @@
+from random import choice, randint, random
 from translator import UniversalTranslator
 from matplotlib import pyplot as plt
 import numpy as np
 
+"""
+    function name: decorate rate 
+    params: translated_string
+    description: takes the string that has been translated and returns the percentage of that string are words
+                words are seen the success in the string.
+"""
+def decode_rate(translated_string):
+    tokens = translated_string.split()
+    words = [t for t in tokens if not t.isdigit()]
+
+    rate = len(words)/len(tokens)
+    
+    return rate
 
 """
     function name: plot_decode_rate
@@ -59,7 +73,7 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
     for step in range(num_steps):
         curr_settings = best_settings.copy()
         knob = randint(0, num_knobs - 1)
-        curr_settings[knob] += choice([-0.03, 0.03]) # I've been fiddling with this a lot
+        curr_settings[knob] += choice([-0.03, 0.03])
         curr_settings[knob] = round(curr_settings[knob], 2)
         curr_settings[knob] = max(0.0, min(1.0, curr_settings[knob]))
         
@@ -86,7 +100,7 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
 # create the UniversalTranslator object, with 2 knobs
 translator = UniversalTranslator(n_dim=2)
 
-result = decode_hill_climb(translator, num_knobs=2, num_steps=50)
+best_settings, best_dec_rate,  all_settings, scores = decode_hill_climb(translator, num_knobs=2, num_steps=50, improvement_judge=30)
 
 # print the reults
 print(f'Final translation: {translator.translate(best_settings)}')
