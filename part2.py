@@ -14,7 +14,7 @@ translator = UniversalTranslator(n_dim=10)
 while time.time() <= end_time:
 
     # demo of how to use the UniversalTranslator object. You can delete these lines
-    result = decode_hill_climb(translator, num_knobs=10, num_steps=50)
+    result = decode_hill_climb(translator, num_knobs=10, num_steps=500)
 
     # print the reults
     print(f'Final translation: {translator.translate(result[0])}')
