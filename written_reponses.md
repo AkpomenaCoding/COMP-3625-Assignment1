@@ -6,17 +6,18 @@ Write your answers to the following questions in this file, *after* completing e
 
 
 # 2) Why is the 10-knob problem harder than the 2-knob problem? (It may help you to know that the *mechanics* of both problems were the same: the relationship between settings and performance had the same general characteristics, there were just more settings to tune in the 10-knob problem).
-
+The transition from searching different combinations 2 dimensions to 10 dimensions causes a drastic change. Despite the number being between 0 and 1, including the decimal numbers, this allows for many more combinations to exist. Introducing 10 dimensions drastically increases the search and exploration. The combinations increase drastically and exploration is much more needed as one change could ruin the whole combination or improve it altogether.
 
 
 
 # 3) If your program was seen as an "agent program", which of the agent types discussed in class would it be?
-
+It would be a utility-based agent due to the nature of it looking for the best optimal settings to translate within a given amount of time. Although the goal is to ideallhy fully translate the transmission with time being short what is the best option through testing and exploration gives it the nature of being utility based.
 
 
 
 # 4) it's often said that the simplest solution is the best. How well would a basic hill-climbing search perform in this problem? Justify your answer using your findings or plots from part 1 (you can answer this question whether or not you used hill-climbing as your approach). 
-
+Hill-climbing performs decently well. Although it does have chances of getting stuck in a locla optima, which makes one have to bring in solutions to avoid that. But when transitioning to the 10 dimension aspect of the problem, hill-climbing was not particularly great in terms of exploring further. It had more of a light tread in exploration but was more on dialing things down to find the best solution. This would eventually either lead to the local optima or maximal optima.
 
 
 # 5) When you moved from the 2- to the 10-knob problem, did you change your search algorithm? Why or why not?
+The algorithm had to change from hill climbing to simulated annealing. Thsi decision came about realizing that the first algorithm got stuck in a local optima in the 0 and decimal percentage rising occasionally in the 40%. Due to the expansion from 2d to 10d the hill climbing wasn't searching through most knobs and would get stuck optimizing little rather than exploring to see if one solution could beat the other.

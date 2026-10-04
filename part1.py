@@ -59,7 +59,6 @@ def plot_decode_rate(settings, decode_rate):
         while keeping the other knobs fixed. This will be repeated until no further improvements can be made
 """
 def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps: int, improvement_judge: int) -> tuple[list, float]:
-    # need to add random functionality sfter a few runs to search in different locations
     scores = []
     all_settings = [] 
 
