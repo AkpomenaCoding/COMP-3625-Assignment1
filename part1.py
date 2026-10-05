@@ -72,7 +72,7 @@ def decode_hill_climb(translator: UniversalTranslator, num_knobs: int, num_steps
     for step in range(num_steps):
         curr_settings = best_settings.copy()
         knob = randint(0, num_knobs - 1)
-        curr_settings[knob] += choice([-0.3, 0.3])
+        curr_settings[knob] += choice([-0.1, 0.1])
         curr_settings[knob] = round(curr_settings[knob], 2)
         curr_settings[knob] = max(0.0, min(1.0, curr_settings[knob]))
         
