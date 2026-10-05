@@ -1,7 +1,7 @@
 Write your answers to the following questions in this file, *after* completing everything else.
 
 # 1) How many settings must be evaluated to *exhaustively* search for the best set (e.g. through some kind of brute-force search). State your assumptions and explain how you arrived at your answer. How does your solution compare to this (quantitatively)?
-Brute force could take a lot of time and, it depends on the step size and the number of knobs. Let's say the step size used was 0.1 then from 0, 0.1, 0.2, ..., 1, that's 11 numbers to get a result from that it could around 11 x 11 which is 121 in its worst case. For the part 2, it could be way more with 10 knobs, 11^10 and that's about 26 billion settings. Our solution solved most the problem for part 1 with around 40 settings that's about less than half the settings needed used. Additionally in part 2, our solution completes about 40% with 50000 settings, massively outperforming a search of 26 billion 
+Brute force could take a lot of time and, it depends on the step size and the number of knobs. Let's say the step size used was 0.1 then from 0, 0.1, 0.2, ..., 1, that's 11 numbers to get a result from that it could around 11 x 11 which is 121 in its worst case. If the step size was 0.01, this could go from 121 to 10201. For the part 2, it could be way more with 10 knobs, 11^10 and that's about 26 billion settings. Our solution solved most the problem for part 1 with around 40 settings that's about less than half the settings needed used. Additionally in part 2, our solution completes about 40% with 50000 settings.
 
 
 
